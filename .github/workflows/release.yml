@@ -1,0 +1,19 @@
+# Deliberately weak workflow for CodeQL "actions" findings. Manual trigger only: it never runs on pull requests.
+name: release-notes
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: Release title
+        required: true
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print title
+        run: echo "Release ${{ inputs.title }}"
+      - uses: softprops/action-gh-release@master
+        with:
+          name: ${{ inputs.title }}
